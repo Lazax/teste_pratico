@@ -1,0 +1,48 @@
+.pagina_login{
+	background-color: rgba(0,0,255, 0.5);
+}
+.agenda_top_bar{
+	background-color: 3399FF;
+	padding: 5px;
+	color: #FFFFFF;
+	font-size: 16px;
+	margin-bottom: 15px;
+}
+.titulo_pagina{
+	color: #0066FF;
+	border-bottom: 1px solid #C0C0B0;
+	padding-bottom: 10px;
+	margin-bottom: 35px;
+}
+
+.calendario{
+	margin-top: 25px;
+}
+.calendario li{
+	border: 1px solid #000000;
+	height: 150px;
+	width: 150px;
+	margin-bottom: 5px;
+	
+}
+.container_atividades{
+	overflow: scroll;
+	overflow-x: hidden;
+	height: 145px;
+	float: left;
+}
+.atividade{
+	height: 20px;
+	background-color: #33FF66;
+	padding-left: 7px;
+	border-radius: 6px;
+	margin-top: 5px;
+	width: 120px;
+	cursor: pointer;
+	float: left;
+}
+.calendario_dia{
+	position: absolute;
+	top: 150px;
+	opacity: 0.7;
+}
