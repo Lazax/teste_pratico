@@ -8,27 +8,26 @@ class AtividadesController extends AppController {
     	if($mes == null || $ano == null):
     		$mes = date('m');
     		$ano = date('Y');
-    		$qtd_dias = cal_days_in_month(CAL_GREGORIAN, $mes, $ano);
-
-			$atividades = $this->getAtividadesMes($mes, $ano);
-
-    		$this->set('lista_atividades', $atividades);
-    		$this->set('info_calendario', array('qtd_dias'=>$qtd_dias, 'mes'=>$mes, 'ano'=>$ano));
-    		
     	endif;
+
+    	$qtd_dias = cal_days_in_month(CAL_GREGORIAN, $mes, $ano);
+		$atividades = $this->getAtividadesMes($mes, $ano);	
+
+    	$this->set('lista_atividades', $atividades);
+    	$this->set('info_calendario', array('qtd_dias'=>$qtd_dias, 'mes'=>$mes, 'ano'=>$ano));	
     }
 
     public function gerenciarAtividade($id = null){
     	if($this->request->is('post') || $this->request->is('put')):
     		$data = $this->request->data;
 
-	    	$data['Atividade']['data'] = date("Y-m-d H:i:s", strtotime($data['Atividade']['data']));
+	    	$data['Atividade']['data'] = $this->formatarData($data['Atividade']['data']);
 			
     		if($this->Atividade->save($data)):
-    			$mensagem = 'A ação foi execultada com sucesso.';
+    			$mensagem = '<div class="alert alert-success" role="alert">A ação foi execultada com sucesso.</div>';
                 $info_redirect = array('action' => 'index');
     		else:
-    			$mensagem = 'Ocorreu um erro. Tente novamente.';
+    			$mensagem = '<div class="alert alert-danger" role="alert">Ocorreu um erro. Tente novamente.</div>';
                 $info_redirect = array('action' => 'adicionarAtividade');
     		endif;
 
@@ -37,6 +36,8 @@ class AtividadesController extends AppController {
         elseif($this->request->is('get') && $id != null):
         	$this->Atividade->id = $id;
         	$this->request->data = $this->Atividade->read();
+        	$this->request->data['Atividade']['data'] = $this->formatarDataApresentacao($this->request->data['Atividade']['data']);
+        	
         	$this->set('atividade_id', $id);
     	endif;
     }
@@ -70,6 +71,31 @@ class AtividadesController extends AppController {
 		endforeach;
 
 		return $atividades;
+    }
+
+    public function ajaxExcluirAtividade($atividade_id){
+    	$this->autoRender = false;
+
+    	if($this->Atividade->delete($atividade_id)):
+    		echo json_encode('true');
+    	else:
+    		echo json_encode('false');
+    	endif;
+    }
+
+    private function formatarData($data){
+    	if($data == '') return '';
+
+    	$data = explode("/", $data);
+		return $data[2]."-".$data[1]."-".$data[0];
+    }
+
+    private function formatarDataApresentacao($data){
+    	if($data == '') return '';
+
+    	$data = explode(" ", $data);
+    	$data = explode("-", $data[0]);
+    	return $data[2]."/".$data[1]."/".$data[0];
     }
 
 }

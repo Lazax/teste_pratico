@@ -2,7 +2,7 @@
 	background-color: rgba(0,0,255, 0.5);
 }
 .agenda_top_bar{
-	background-color: 3399FF;
+	background-color: #3399FF;
 	padding: 5px;
 	color: #FFFFFF;
 	font-size: 16px;
@@ -16,7 +16,7 @@
 }
 
 .calendario{
-	margin-top: 25px;
+	margin-top: 10px;
 }
 .calendario li{
 	border: 1px solid #000000;
@@ -43,9 +43,12 @@
 }
 .calendario_dia{
 	position: absolute;
-	/*top: 150px;*/
-	opacity: 0.7;
+	opacity: 0.5;
 }
 .ajax_salvando{
 	display: none;
+}
+.excluir_atividade{
+	margin-right: 10px;
+	margin-top: 2px;
 }

@@ -16,7 +16,7 @@
 			    <?php echo $this->Form->input('titulo', array('class'=>'form-control', 'placeholder'=>'informe o nome da atividade')); ?>
 			</div>
 		  	<div class="form-group">
-		    	<?php echo $this->Form->input('data', array('type'=>'text', 'class'=>'form-control', 'placeholder'=>'informe a data da atividade')); ?>
+		    	<?php echo $this->Form->input('data', array('type'=>'text', 'id'=>'js-data', 'class'=>'form-control', 'placeholder'=>'informe a data da atividade')); ?>
 		 	</div>
 		  	<div class="form-group">
 		    	<?php echo $this->Form->input('descricao', array('type'=>'textarea', 'rows'=>'3', 'class'=>'form-control', 'placeholder'=>'informe a data da atividade')); ?>
