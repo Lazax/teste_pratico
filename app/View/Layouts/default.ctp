@@ -23,11 +23,16 @@
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
 		<script type="text/javascript" src="<?php echo Router::url('/', true);?>app/webroot/js/jquery.min.js"></script>
+		<script type="text/javascript" src="<?php echo Router::url('/', true);?>app/webroot/js/jquery-ui.min.js"></script>
 		<script type="text/javascript" src="<?php echo Router::url('/', true);?>app/webroot/bootstrap/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="<?php echo Router::url('/', true);?>app/webroot/js/main.js"></script>
 		
 		<link rel="stylesheet" href="<?php echo Router::url('/', true);?>app/webroot/bootstrap/css/bootstrap.min.css" />
 		<link rel="stylesheet" href="<?php echo Router::url('/', true);?>app/webroot/css/main.css" />
+
+		<script type="text/javascript">
+		var router_url = "<?php echo Router::url('/', true);?>";
+		</script>
 	</head>
 
 	<body>

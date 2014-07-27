@@ -43,6 +43,9 @@
 }
 .calendario_dia{
 	position: absolute;
-	top: 150px;
+	/*top: 150px;*/
 	opacity: 0.7;
+}
+.ajax_salvando{
+	display: none;
 }

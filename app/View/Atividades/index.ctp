@@ -1,103 +1,51 @@
-<html>
-	
-	<head>
-		<meta charset="utf-8">
-	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-	    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
-		<script type="text/javascript" src="js/jquery.min.js"></script>
-		<script type="text/javascript" src="jquery-ui/jquery-ui.min.js"></script>
-		<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="js/main.js"></script>
-		
-		<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
-		<link rel="stylesheet" href="css/main.css" />
+<div class="agenda_top_bar">
+	<label>Agenda de Atividades / Lista de Atividades</label>
+</div>
 
-		<script type="text/javascript">
-			jQuery(function() {
-			    jQuery( ".atividade" ).draggable({ 
-			    	revert: "invalid",
-			    	helper: "clone"
-			   	});
-			 	
+<div class="container">
 
-			    jQuery("#js-calendario li").droppable({
-			    	activeClass: "ui-state-default",
-			    	hoverClass: "ui-state-hover",
-			      	drop: function( event, ui ) {
-			      		console.log(event);
-			        	deletarAtividade(ui.draggable, event.target.id);
-			      	}
-			    	});
-			  	});
-
-				function deletarAtividade($item, container_id){
-					console.log(container_id);
-
-					$item.fadeOut(function(){
-						$item_clone = $(this);
-						$item_clone.appendTo($('#'+container_id+" .container_atividades")).fadeIn();
-					});
-				}
-		</script>
-	</head>
-
-	<body>
-		
-		<div class="agenda_top_bar">
-			<label>Agenda de Atividades / Lista de Atividades</label>
+	<div class="row col-md-12">
+		<div id='js-ajax_salvando' class="pull-left ajax_salvando">
+			<img src="<?php echo Router::url('/', true);?>app/webroot/img/ajax-loader.gif" />
+			<label>Salvando...</label>
 		</div>
+		<div id='js-ajax_retorno' class="pull-left ajax_salvando"><label></label></div>
 
-		<div class="container">
+		<?php echo $this->Html->link('nova atividade', array('controller'=>'atividades', 'action'=>'gerenciarAtividade'), array('class'=>'btn btn-primary pull-right')); ?>
+	</div>
+	<div class="row col-md-12" >
+		<input id='js-mes' type='hidden' value='<?php echo $info_calendario['mes']; ?>' />
+		<input id='js-ano' type='hidden' value='<?php echo $info_calendario['ano']; ?>' />
 
-			<div class="row col-md-12" >
-				<?php echo $this->Html->link('nova atividade', array('controller'=>'atividades', 'action'=>'gerenciarAtividade'), array('class'=>'btn btn-primary')); ?>
-				<ul id='js-calendario' class="list-inline calendario">
-				  <li id="dia1">
-				  	<div class="container_atividades">
-					  	<div class="atividade">Atividade 1</div>
-					  	<div class="atividade">Atividade 2</div>
-					  	<div class="atividade">Atividade 3</div>
-					  	<div class="atividade">Atividade 7</div>
-					  	<div class="atividade">Atividade 8</div>
-					  	<div class="atividade">Atividade 9</div>
-					  	<div class="atividade">Atividade 10</div>
-				  	</div>
-				  	<div><h2 class="calendario_dia">1</h2></div>
-				  </li>
-				  <li id="dia2">
-				  	<div class="container_atividades">
-				  		<div class="atividade">Atividade 4</div>
-				  		<div class="atividade">Atividade 5</div>
-				  	</div>
-				  	<div><h2 class="calendario_dia">2</h2></div>
-				  </li>
-				  <li id="dia3">
-				  	<div class="container_atividades">
-				  	</div>
-				  	<div><h2 class="calendario_dia">3</h2></div>
-				  </li>
-				  <li id="dia4">
-				  	<div class="container_atividades">
-				  	</div>
-				  	<div><h2 class="calendario_dia">4</h2></div>
-				  </li>
-				  <li></li>
-				  <li>
-				  	<div class="atividade">Atividade 6</div>
-				  </li>
-				  <li></li>
+		<ul id='js-calendario' class="list-inline calendario">
+			<?php 
+			$qtd_dias = 1;
 
-				  <li></li>
-				  <li></li>
-				  <li></li>
-				  <li></li>
-				  <li></li>
-				  <li></li>
-				  <li></li>
-				</ul>
-			</div>
-		</div>
-
-	</body>
-</html>
+			while ($info_calendario['qtd_dias'] >= $qtd_dias): 
+			?>
+				<li id='<?php echo $qtd_dias; ?>'>
+					<div class="container_atividades">
+						<?php 
+						if(isset($lista_atividades[$qtd_dias])): 
+							foreach ($lista_atividades[$qtd_dias] as $key => $atividade):
+						?>
+							<div class="atividade" atividade-id="<?php echo $atividade['id']; ?>" >
+								<?php echo $atividade['titulo']; ?>
+							</div>
+						<?php 
+							endforeach;
+						endif; 
+						?>
+					</div>
+					<div>
+						<h2 class="calendario_dia"><?php echo $qtd_dias; ?></h2>
+					</div>
+				</li>
+			<?php 
+				++$qtd_dias;
+			endwhile; 
+			?>
+		</ul>
+	</div>
+</div>

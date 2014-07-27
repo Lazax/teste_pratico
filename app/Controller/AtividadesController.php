@@ -4,8 +4,18 @@ class AtividadesController extends AppController {
     public $name = 'Atividades';
     public $components = array('Session');
 
-    public function index(){
+    public function index($mes = null, $ano = null){
+    	if($mes == null || $ano == null):
+    		$mes = date('m');
+    		$ano = date('Y');
+    		$qtd_dias = cal_days_in_month(CAL_GREGORIAN, $mes, $ano);
 
+			$atividades = $this->getAtividadesMes($mes, $ano);
+
+    		$this->set('lista_atividades', $atividades);
+    		$this->set('info_calendario', array('qtd_dias'=>$qtd_dias, 'mes'=>$mes, 'ano'=>$ano));
+    		
+    	endif;
     }
 
     public function gerenciarAtividade($id = null){
@@ -29,6 +39,37 @@ class AtividadesController extends AppController {
         	$this->request->data = $this->Atividade->read();
         	$this->set('atividade_id', $id);
     	endif;
+    }
+
+    public function ajaxRemanejarAtividade($atividade_id, $nova_data){
+    	$data['Atividade']['id'] = $atividade_id;
+    	$data['Atividade']['data'] = $nova_data;
+    	$this->autoRender = false;
+
+    	if($this->Atividade->save($data)):
+    		echo json_encode('true');
+    	else:
+    		echo json_encode('false');
+    	endif;
+    }
+
+    private function getAtividadesMes($mes, $ano){
+    	$data_inicio = $ano.'-'.$mes.'-01';
+		$condicao = array("Atividade.data BETWEEN '".$data_inicio."' AND DATE_ADD('".$data_inicio."', INTERVAL 30 DAY)");
+		
+		$lista_atividades = $this->Atividade->find('all', array(
+			'conditions'=>$condicao,
+			'fields' => array('Atividade.*, DAY(Atividade.data) AS dia'),
+		));
+
+		$atividades = array();
+
+		foreach ($lista_atividades as $key => $atividade) :
+			$index_dia = $atividade[0]['dia'];
+			$atividades[$index_dia][] = $atividade['Atividade'];
+		endforeach;
+
+		return $atividades;
     }
 
 }
